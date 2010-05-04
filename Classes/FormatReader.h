@@ -1,10 +1,9 @@
 //
-//  SMSParsedResult.h
-//  ZXing
+//  FormatReader.h
 //
-//  Created by Christian Brunschen on 25/06/2008.
+//  Created by Dave MacLachlan on 2010-05-03.
 /*
- * Copyright 2008 ZXing authors
+ * Copyright 2010 ZXing authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,18 +18,20 @@
  * limitations under the License.
  */
 
-#import <UIKit/UIKit.h>
-#import "ParsedResult.h"
+#import <Foundation/Foundation.h>
+#import <zxing/common/Counted.h>
+#import <zxing/Result.h>
+#import <zxing/BinaryBitmap.h>
+#import <zxing/Reader.h>
 
-
-@interface SMSParsedResult : ParsedResult {
-  NSString *number;
-  NSString *body;
+@interface FormatReader : NSObject {
+  zxing::Reader *reader_;
 }
 
-@property (nonatomic, copy) NSString *number;
-@property (nonatomic, copy) NSString *body;
++ (void)registerFormatReader:(FormatReader *)formatReader;
++ (NSSet *)formatReaders;
 
-- (id)initWithNumber:(NSString *)n body:(NSString *)b;
+- (id)initWithReader:(zxing::Reader *)reader;
+- (zxing::Ref<zxing::Result>)decode:(zxing::Ref<zxing::BinaryBitmap>)grayImage;
 
 @end

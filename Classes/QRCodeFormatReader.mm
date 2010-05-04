@@ -1,10 +1,10 @@
 //
-//  SMSParsedResult.h
-//  ZXing
+//  QRCodeFormatReader.mm
+//  OTPAuth
 //
-//  Created by Christian Brunschen on 25/06/2008.
+//  Created by Dave MacLachlan on 2010-05-03.
 /*
- * Copyright 2008 ZXing authors
+ * Copyright 2010 ZXing authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,18 +19,24 @@
  * limitations under the License.
  */
 
-#import <UIKit/UIKit.h>
-#import "ParsedResult.h"
+#import "FormatReader.h"
 
+#import <zxing/qrcode/QRCodeReader.h>
 
-@interface SMSParsedResult : ParsedResult {
-  NSString *number;
-  NSString *body;
+@interface QRCodeFormatReader : FormatReader
+@end
+
+@implementation QRCodeFormatReader
+
++ (void)load {
+  NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+  [FormatReader registerFormatReader:[[[self alloc] init] autorelease]];
+  [pool drain];
 }
 
-@property (nonatomic, copy) NSString *number;
-@property (nonatomic, copy) NSString *body;
-
-- (id)initWithNumber:(NSString *)n body:(NSString *)b;
+- (id)init {
+  zxing::qrcode::QRCodeReader *reader = new zxing::qrcode::QRCodeReader();
+  return [super initWithReader:reader];
+}
 
 @end
